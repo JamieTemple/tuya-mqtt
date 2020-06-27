@@ -1,0 +1,24 @@
+{
+    "mqtt": {
+        "broker_address": "<ENTER YOUR MQTT BROKER ADDRESS HERE>",
+        "port": 1883,
+        "clientId": "tuya-mqtt",
+        "username": "<YOUR MQTT BROKER USER NAME>",
+        "password": "<YOUR MQTT BROKER PASSWORD>",
+        "root_topic": "tuya"
+    },
+    "devices": [
+        {
+            "id": 1,
+            "deviceIp": "",
+            "deviceId": "",
+            "deviceKey": ""
+        },
+        {
+            "id": 2,
+            "deviceIp": "",
+            "deviceId": "",
+            "deviceKey": ""
+        }
+    ]
+}
