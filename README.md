@@ -1,6 +1,6 @@
 # tuya-mqtt
 
-110 lines of code...
+122 lines of code...
 
 ```
 npm install
