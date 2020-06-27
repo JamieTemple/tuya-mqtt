@@ -1,0 +1,12 @@
+version: "3"
+services:
+  apcups-mqtt:
+    image: scooby:5000/faraday/tuya-mqtt:latest
+    container_name: tuya-mqtt
+    environment:
+      - TZ="Europe/London"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /var/local/containers-data/tuya-mqtt/tuya-mqtt.config:/app/config.json.local
+    restart: unless-stopped
