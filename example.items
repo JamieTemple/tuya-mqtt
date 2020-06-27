@@ -1,0 +1,8 @@
+Switch      Teckin_Socket_1_State       "Teckin socket 1 State"                 <poweroutlet_uk>    (Power)             { channel="mqtt:topic:broker:tuya-1:control" }
+DateTime    Teckin_Socket_1_LastSeen    "Teckin socket 1 Last seen"             <clock>             (Power, LastSeen)   { channel="mqtt:topic:broker:tuya-1:lastseen" }
+String      Teckin_Socket_1_Status      "Teckin socket 1 Status"                                    (Power)             { channel="mqtt:topic:broker:tuya-1:status" }
+String      Teckin_Socket_1_Error       "Teckin socket 1 Error"                                     (Power)             { channel="mqtt:topic:broker:tuya-1:error" }
+String      Teckin_Socket_1_DPS         "Teckin socket 1 DPS"                                       (Power)             { channel="mqtt:topic:broker:tuya-1:dps" }
+Number      Teckin_Socket_1_Voltage     "Teckin socket 1 Voltage [%.2f V]"      <energy>            (Power)             { channel="mqtt:topic:broker:tuya-1:voltage" }
+Number      Teckin_Socket_1_Current     "Teckin socket 1 Current [%.2f mA]"     <energy>            (Power)             { channel="mqtt:topic:broker:tuya-1:current" }
+Number      Teckin_Socket_1_Power       "Teckin socket 1 Power [%.2f W]"        <energy>            (Power)             { channel="mqtt:topic:broker:tuya-1:power" }

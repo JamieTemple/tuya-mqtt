@@ -23,40 +23,52 @@ const init_devices = async () => {
         });
 
         device.on('connected', async () => {
-            await client.publish(deviceTopic + "state", "connected");
-            await client.publish(deviceTopic + "lastseen", new Date().toString());
+            await client.publish(deviceTopic + "status", "connected");
+            await client.publish(deviceTopic + "lastseen", (new Date()).toISOString());
         });
 
         device.on('disconnected', async () => {
-            await client.publish(deviceTopic + "state", "disconnected");
+            await client.publish(deviceTopic + "status", "disconnected");
             await new Promise(resolve => setTimeout(resolve, 1000));
-            await client.publish(deviceTopic + "state", "reconnecting");
+            await client.publish(deviceTopic + "status", "reconnecting");
             await device.connect();
         });
 
         device.on('error', async (error) => {
             await client.publish(deviceTopic + "error", JSON.stringify(error));
-            await client.publish(deviceTopic + "lastseen", new Date().toString());
+            await client.publish(deviceTopic + "lastseen", (new Date()).toISOString());
         });
 
         device.on('heartbeat', async () => {
-            await client.publish(deviceTopic + "lastseen", new Date().toString());
+            await client.publish(deviceTopic + "lastseen", (new Date()).toISOString());
         });
 
-        device.on('data', async (data) => {
-            await client.publish(deviceTopic + "power", data.dps['1'] ? "ON" : "OFF");
+        device.on('data', async (data, commandByte, sequenceN  ) => {
+            //console.debug("RECIEVED command: " + commandByte + " - Sequence: " + sequenceN + "  --  " + JSON.stringify(data));
+            if (data.dps['1'] != null) {
+                await client.publish(deviceTopic + "control", data.dps['1'] ? "ON" : "OFF");
+            }
+            if (element.currentDps && data.dps[element.currentDps] != null) {
+                await client.publish(deviceTopic + "current", data.dps[element.currentDps].toString());
+            }
+            if (element.powerDps && data.dps[element.powerDps] != null) {
+                await client.publish(deviceTopic + "power", (data.dps[element.powerDps] / 10).toString());
+            }
+            if (element.voltageDps && data.dps[element.voltageDps] != null) {
+                await client.publish(deviceTopic + "voltage", (data.dps[element.voltageDps] / 10).toString());
+            }
             await client.publish(deviceTopic + "dps", JSON.stringify(data.dps));
-            await client.publish(deviceTopic + "lastseen", new Date().toString());
+            await client.publish(deviceTopic + "lastseen", (new Date()).toISOString());
         });
 
         client.subscribe(deviceTopic + 'set');
         client.on('message', (t, m) => {
             if (t == deviceTopic + 'set') {
-                device.set({ set: m == "ON" ? true : false });
+                device.set({ set: (m == "ON" || m == "1") ? true : false });
             }
         })
 
-        await client.publish(deviceTopic + "lastseen", new Date().toString());
+        await client.publish(deviceTopic + "lastseen", (new Date()).toISOString());
     });
 }
 
@@ -94,7 +106,7 @@ function handleAppExit(options, err) {
 
 // -------------------------------------------------------------------------------------------------
 
-var config = JSON.parse(fs.readFileSync("config.json.local"));
+var config = JSON.parse(fs.readFileSync("config.json"));
 
 const client = MQTT.connect("tcp://" + config.mqtt.broker_address + ":" + config.mqtt.port, {
     clientId: config.mqtt.clientId,

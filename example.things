@@ -1,0 +1,16 @@
+Thing mqtt:topic:broker:tuya-mqtt       "MQTT - Tuya service"           (mqtt:broker:broker) {
+    Channels:
+        Type string     : status        "Tuya service status"           [ stateTopic="tuya/service" ]
+}
+
+Thing mqtt:topic:broker:tuya-1          "MQTT - Tuya socket 1"          (mqtt:broker:broker) {
+    Channels:
+        Type switch     : control       "Control"                       [ stateTopic="tuya/1/control", commandTopic="tuya/1/set" ]
+        Type string     : status        "State"                         [ stateTopic="tuya/1/status" ]
+        Type datetime   : lastseen      "Last seen"                     [ stateTopic="tuya/1/lastseen" ]
+        Type string     : dps           "Data"                          [ stateTopic="tuya/1/dps" ]
+        Type string     : error         "Error"                         [ stateTopic="tuya/1/error" ]
+        Type number     : voltage       "Voltage"                       [ stateTopic="tuya/1/voltage" ]
+        Type number     : current       "Current"                       [ stateTopic="tuya/1/current" ]
+        Type number     : power         "Power"                         [ stateTopic="tuya/1/power" ]
+}

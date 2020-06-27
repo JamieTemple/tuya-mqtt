@@ -5,14 +5,18 @@
         "clientId": "tuya-mqtt",
         "username": "<YOUR MQTT BROKER USER NAME>",
         "password": "<YOUR MQTT BROKER PASSWORD>",
-        "root_topic": "tuya"
+        "root_topic": "tuya",
+        "qos": 2
     },
     "devices": [
         {
             "id": 1,
             "deviceIp": "",
             "deviceId": "",
-            "deviceKey": ""
+            "deviceKey": "",
+            "currentDps": 4,
+            "powerDps": 5,
+            "voltageDps": 6
         },
         {
             "id": 2,
